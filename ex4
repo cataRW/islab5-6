@@ -1,0 +1,170 @@
+import java.util.ArrayList;
+import java.util.List;
+ 
+public class Company {
+    private String name;
+    private List<Department> departments;
+ 
+    public Company(String name) {
+        this.name = name;
+        this.departments = new ArrayList<>();
+    }
+ 
+    public String getName() {
+        return name;
+    }
+ 
+    public List<Department> getDepartments() {
+        return departments;
+    }
+ 
+    public void addDepartment(Department department) {
+        departments.add(department);
+    }
+}
+ 
+import java.util.ArrayList;
+import java.util.List;
+ 
+public class Department {
+    private String name;
+    private List<Employee> employees;
+    private List<Office> offices;
+    private Office headquarters;
+    private Employee manager;
+ 
+    public Department(String name) {
+        this.name = name;
+        this.employees = new ArrayList<>();
+        this.offices = new ArrayList<>();
+    }
+ 
+    public String getName() {
+        return name;
+    }
+ 
+    public List<Employee> getEmployees() {
+        return employees;
+    }
+ 
+    public void addEmployee(Employee employee) {
+        if (!employees.contains(employee)) {
+            employees.add(employee);
+            employee.setDepartment(this);
+        }
+    }
+ 
+    public List<Office> getOffices() {
+        return offices;
+    }
+ 
+    public void addOffice(Office office) {
+        if (!offices.contains(office)) {
+            offices.add(office);
+        }
+    }
+ 
+    public Office getHeadquarters() {
+        return headquarters;
+    }
+ 
+    public void setHeadquarters(Office headquarters) {
+        this.headquarters = headquarters;
+        addOffice(headquarters);
+    }
+ 
+    public Employee getManager() {
+        return manager;
+    }
+ 
+    public void setManager(Employee manager) {
+        if (employees.contains(manager)) {
+            this.manager = manager;
+        } else {
+            throw new IllegalArgumentException("Manager must be an employee of the department.");
+        }
+    }
+}
+ 
+public class Office {
+    private String address;
+ 
+    public Office(String address) {
+        this.address = address;
+    }
+ 
+    public String getAddress() {
+        return address;
+    }
+}
+ 
+ 
+public class Employee {
+    private String name;
+    private Department department;
+ 
+    public Employee(String name) {
+        this.name = name;
+    }
+ 
+    public String getName() {
+        return name;
+    }
+ 
+    public Department getDepartment() {
+        return department;
+    }
+ 
+    void setDepartment(Department department) {
+        this.department = department;
+    }
+}
+ 
+public class Main {
+    public static void main(String[] args) {
+        Company company = new Company("TechCorp");
+ 
+        Department devDept = new Department("Development");
+        Department hrDept = new Department("HR");
+ 
+        Employee alice = new Employee("Alice");
+        Employee bob = new Employee("Bob");
+        Employee carol = new Employee("Carol");
+ 
+        devDept.addEmployee(alice);
+        devDept.addEmployee(bob);
+        devDept.setManager(alice);
+ 
+        hrDept.addEmployee(carol);
+        hrDept.setManager(carol);
+ 
+        Office office1 = new Office("123 Main Street");
+        Office office2 = new Office("456 Side Ave");
+ 
+        devDept.addOffice(office1);
+        devDept.setHeadquarters(office1);
+ 
+        hrDept.addOffice(office1);
+        hrDept.addOffice(office2);
+        hrDept.setHeadquarters(office2);
+ 
+        company.addDepartment(devDept);
+        company.addDepartment(hrDept);
+ 
+        System.out.println("Company: " + company.getName());
+        for (Department dept : company.getDepartments()) {
+            System.out.println("Department: " + dept.getName());
+            System.out.println("  Manager: " + dept.getManager().getName());
+            System.out.println("  Employees:");
+            for (Employee e : dept.getEmployees()) {
+                System.out.println("    - " + e.getName());
+            }
+            System.out.println("  Offices:");
+            for (Office o : dept.getOffices()) {
+                System.out.println("    - " + o.getAddress());
+            }
+            System.out.println("  Headquarters: " + dept.getHeadquarters().getAddress());
+            System.out.println();
+        }
+    }
+}
