@@ -1,0 +1,134 @@
+public abstract class ContentElement {
+    private String title;
+    private int number;
+ 
+    public ContentElement(String title, int number) {
+        this.title = title;
+        this.number = number;
+    }
+ 
+    public String getTitle() {
+        return title;
+    }
+ 
+    public void setTitle(String title) {
+        this.title = title;
+    }
+ 
+    public int getNumber() {
+        return number;
+    }
+ 
+    public void setNumber(int number) {
+        this.number = number;
+    }
+}
+ 
+ 
+public class Section extends ContentElement {
+    public Section(String title, int number) {
+        super(title, number);
+    }
+}
+ 
+import java.util.ArrayList;
+import java.util.List;
+ 
+public class Chapter extends ContentElement {
+    private String summary;
+    private List<Section> sections;
+ 
+    public Chapter(String title, int number, String summary) {
+        super(title, number);
+        this.summary = summary;
+        this.sections = new ArrayList<>();
+    }
+ 
+    public String getSummary() {
+        return summary;
+    }
+ 
+    public void setSummary(String summary) {
+        this.summary = summary;
+    }
+ 
+    public List<Section> getSections() {
+        return sections;
+    }
+ 
+    public void addSection(Section section) {
+        sections.add(section);
+    }
+}
+ 
+ 
+import java.util.ArrayList;
+import java.util.List;
+ 
+public class Part extends ContentElement {
+    private List<Chapter> chapters;
+ 
+    public Part(String title, int number) {
+        super(title, number);
+        this.chapters = new ArrayList<>();
+    }
+ 
+    public List<Chapter> getChapters() {
+        return chapters;
+    }
+ 
+    public void addChapter(Chapter chapter) {
+        chapters.add(chapter);
+    }
+}
+ 
+ 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+ 
+public class Book {
+    private String editor;
+    private Date publicationDate;
+    private String isbn;
+    private List<Part> bookParts;
+ 
+    public Book(String editor, Date publicationDate, String isbn) {
+        this.editor = editor;
+        this.publicationDate = publicationDate;
+        this.isbn = isbn;
+        this.bookParts = new ArrayList<>();
+    }
+ 
+    public String getEditor() {
+        return editor;
+    }
+ 
+    public void setEditor(String editor) {
+        this.editor = editor;
+    }
+ 
+    public Date getPublicationDate() {
+        return publicationDate;
+    }
+ 
+    public void setPublicationDate(Date publicationDate) {
+        this.publicationDate = publicationDate;
+    }
+ 
+    public String getIsbn() {
+        return isbn;
+    }
+ 
+    public void setIsbn(String isbn) {
+        this.isbn = isbn;
+    }
+ 
+    public List<Part> getBookParts() {
+        return bookParts;
+    }
+ 
+    public void addPart(Part part) {
+        bookParts.add(part);
+    }
+}
